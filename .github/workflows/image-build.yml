@@ -14,6 +14,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Cache Vagrant boxes
+        uses: actions/cache@v2
+        with:
+          path: ~/.vagrant.d/boxes
+          key: ${{ runner.os }}-vagrant-${{ hashFiles('Vagrantfile') }}
+          restore-keys: |
+            ${{ runner.os }}-vagrant-
+
+      - uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       - uses: actions/setup-python@v2
         with:
           python-version: '3.x'
@@ -23,14 +38,6 @@ jobs:
 
       - name: Install ansible
         run: pip install ansible
-
-      - name: Cache Vagrant boxes
-        uses: actions/cache@v2
-        with:
-          path: ~/.vagrant.d/boxes
-          key: ${{ runner.os }}-vagrant-${{ hashFiles('Vagrantfile') }}
-          restore-keys: |
-            ${{ runner.os }}-vagrant-
 
       - name: Run vagrant up
         run: vagrant up
