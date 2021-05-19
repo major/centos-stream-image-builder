@@ -32,6 +32,5 @@ jobs:
       - name: Run vagrant up
         run: vagrant up
 
-      - name: Prepare Vagrant box
-        run: |
-          vagrant ssh -c "composer-cli status show"
+      - name: Verify composer is running
+        run: vagrant ssh -c "composer-cli status show"
