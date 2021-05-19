@@ -16,5 +16,10 @@ jobs:
 
       - name: Install packages
         run: |
+          sudo apt update
           sudo apt install -y bridge-utils libvirt-clients libvirt-daemon \
             libvirt-daemon-system libvirt-daemon-driver-qemu qemu-kvm virtinst
+
+      - name: Dump the default network XML
+        run: |
+          sudo virsh net-dumpxml default
