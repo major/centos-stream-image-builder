@@ -29,6 +29,8 @@ jobs:
         run: |
           vagrant ssh -c "cat /etc/centos-release"  
           vagrant ssh -c "echo 'fastestmirror=1' | sudo tee -a /etc/dnf/dnf.conf"
+          vagrant ssh -c "sudo dnf -qy swap centos-linux-repos centos-stream-repos"
+          vagrant ssh -c "sudo dnf -qy distro-sync"
           vagrant ssh -c "sudo dnf -qy upgrade"
-          vagrant ssh -c "sudo dnf -qy composer-cli osbuild osbuild-composer"
+          vagrant ssh -c "sudo dnf -qy install composer-cli osbuild osbuild-composer"
           vagrant ssh -c "cat /etc/centos-release"
