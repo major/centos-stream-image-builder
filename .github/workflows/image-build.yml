@@ -18,6 +18,9 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Upgrade pip + wheel
+        run: pip install -U pip wheel
+
       - name: Install ansible
         run: pip install ansible
 
