@@ -14,6 +14,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install ansible
+        run: pip install ansible
+
       - name: Cache Vagrant boxes
         uses: actions/cache@v2
         with:
@@ -27,9 +34,4 @@ jobs:
 
       - name: Prepare Vagrant box
         run: |
-          vagrant ssh -c "cat /etc/centos-release"  
-          vagrant ssh -c "echo 'fastestmirror=1' | sudo tee -a /etc/dnf/dnf.conf"
-          vagrant ssh -c "sudo dnf -y upgrade"
-          vagrant ssh -c "sudo dnf -y install composer-cli osbuild osbuild-composer"
-          vagrant ssh -c "cat /etc/centos-release"
-          vagrant ssh -c "ls -al /vagrant"
+          vagrant ssh -c "composer-cli status show"
