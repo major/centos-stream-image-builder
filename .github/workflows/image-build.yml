@@ -8,18 +8,29 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ubuntu-20.04
+  vagrant-up:
+    runs-on: macos-10.15
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install packages
-        run: |
-          sudo apt update
-          sudo apt install -y bridge-utils libvirt-clients libvirt-daemon \
-            libvirt-daemon-system libvirt-daemon-driver-qemu qemu-kvm virtinst
+      - name: Cache Vagrant boxes
+        uses: actions/cache@v2
+        with:
+          path: ~/.vagrant.d/boxes
+          key: ${{ runner.os }}-vagrant-${{ hashFiles('Vagrantfile') }}
+          restore-keys: |
+            ${{ runner.os }}-vagrant-
 
-      - name: Dump the default network XML
+      - name: Show Vagrant version
+        run: vagrant --version
+
+      - name: Run vagrant up
+        run: vagrant up
+
+      - name: ssh into box after boot
         run: |
-          sudo virsh net-dumpxml default
+          vagrant ssh -c "cat /etc/centos-release"
+          vagrant ssh -c "dnf -y swap centos-linux-repos centos-stream-repos"
+          vagrant ssh -c "dnf -y distro-sync"
+          vagrant ssh -c "dnf -y upgrade"
