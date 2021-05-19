@@ -1,4 +1,4 @@
-name: CI
+name: Image Build
 
 on:
   push:
@@ -16,5 +16,5 @@ jobs:
 
       - name: Install packages
         run: |
-          apt install -y bridge-utils libvirt-clients libvirt-daemon \
+          sudo apt install -y bridge-utils libvirt-clients libvirt-daemon \
             libvirt-daemon-system libvirt-daemon-driver-qemu qemu-kvm virtinst
