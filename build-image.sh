@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euxo pipefail
+set -euo pipefail
 
 BLUEPRINT_NAME=centos
 
@@ -22,10 +22,10 @@ while true; do
 
     # Is the compose finished?
     if [[ $COMPOSE_STATUS != RUNNING ]] && [[ $COMPOSE_STATUS != WAITING ]]; then
-        echo "Compose finished."
+        echo "Compose finished at $(date)."
         break
     else
-        echo "Compose still running..."
+        echo "Compose still running at $(date)..."
     fi
     sleep 30
 done

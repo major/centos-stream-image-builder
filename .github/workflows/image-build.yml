@@ -22,6 +22,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-vagrant-
 
+      - name: Add vagrant disk size plugin
+        run: vagrant plugin install vagrant-disksize
+
       - name: Start vagrant box
         run: vagrant up
 
