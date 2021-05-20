@@ -3,8 +3,8 @@
 echo "fastestmirror=1" >> /etc/dnf/dnf.conf
 dnf -y install cloud-utils-growpart composer-cli osbuild-composer jq
 
-df -hT
 growpart /dev/sda 1
+xfs_growfs /
 df -hT
 
 usermod -a -G weldr vagrant
