@@ -2,6 +2,7 @@
 set -euo pipefail
 
 BLUEPRINT_NAME=centos
+IMAGE_UUID=$(uuid)
 
 # Push the blueprint and depsolve.
 composer-cli blueprints push /vagrant/${BLUEPRINT_NAME}-blueprint.toml
@@ -9,8 +10,7 @@ composer-cli blueprints depsolve ${BLUEPRINT_NAME} > /dev/null
 composer-cli blueprints list
 
 # Start the build.
-#composer-cli --json compose start ${BLUEPRINT_NAME} ami image-from-container /repo/aws-config.toml | tee compose_start.json
-composer-cli --json compose start ${BLUEPRINT_NAME} ami | tee compose_start.json
+composer-cli --json compose start ${BLUEPRINT_NAME} ami github-actions-${IMAGE_UUID} /vagrant/aws-config.toml | tee compose_start.json
 COMPOSE_ID=$(jq -r '.build_id' compose_start.json)
 
 # Watch the logs while the build runs.
@@ -27,7 +27,7 @@ while true; do
     else
         echo "Compose still running at $(date)..."
     fi
-    sleep 30
+    sleep 15
 done
 
 if [[ $COMPOSE_STATUS != FINISHED ]]; then
@@ -36,8 +36,3 @@ if [[ $COMPOSE_STATUS != FINISHED ]]; then
     echo "Something went wrong with the compose. 😢"
     exit 1
 fi
-
-# Download the image.
-composer-cli compose image ${COMPOSE_ID}
-mkdir -vp /vagrant/output
-tar -xf /${COMPOSE_ID}-commit.tar -C /vagrant/output/

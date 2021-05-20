@@ -1,11 +1,11 @@
 #!/bin/bash
 
 echo "fastestmirror=1" >> /etc/dnf/dnf.conf
-dnf -y install cloud-utils-growpart composer-cli osbuild-composer jq
+dnf -y install cloud-utils-growpart composer-cli osbuild-composer jq uuid
 
 growpart /dev/sda 1
 xfs_growfs /
-df -hT
+df -hT /
 
 usermod -a -G weldr vagrant
 systemctl enable --now osbuild-composer.socket
