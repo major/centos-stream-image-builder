@@ -22,25 +22,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-vagrant-
 
-      - uses: actions/cache@v2
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
-      - uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
-
-      - name: Upgrade pip + wheel
-        run: pip install -U pip wheel
-
-      - name: Install ansible
-        run: |
-          pip wheel ansible
-          pip install ansible
-
       - name: Start vagrant box
         run: vagrant up
 
