@@ -39,8 +39,14 @@ jobs:
       - name: Install ansible
         run: pip install ansible
 
+      - name: Show vagrant boxes
+        run: ls -alh ~/.vagrant.d/boxes
+
       - name: Run vagrant up
         run: vagrant up
 
+      - name: Check vagrant user
+        run: vagrant ssh -c "whoami"
+
       - name: Verify composer is running
-        run: vagrant ssh -c "composer-cli status show"
+        run: vagrant ssh -c "sudo composer-cli status show"
