@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -euxo pipefail
 
 BLUEPRINT_NAME=centos
 IMAGE_UUID=$(uuid)
