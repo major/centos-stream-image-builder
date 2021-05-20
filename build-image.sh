@@ -14,7 +14,7 @@ composer-cli --json compose start ${BLUEPRINT_NAME} ami | tee compose_start.json
 COMPOSE_ID=$(jq -r '.build_id' compose_start.json)
 
 # Watch the logs while the build runs.
-docker-exec journalctl -af -n0 &
+sudo journalctl -af -n0 &
 
 while true; do
     composer-cli --json compose info "${COMPOSE_ID}" | tee compose_info.json > /dev/null
@@ -40,4 +40,4 @@ fi
 # Download the image.
 composer-cli compose image ${COMPOSE_ID}
 mkdir -vp /vagrant/output
-docker-exec tar -xf /${COMPOSE_ID}-commit.tar -C /vagrant/output/
+tar -xf /${COMPOSE_ID}-commit.tar -C /vagrant/output/
