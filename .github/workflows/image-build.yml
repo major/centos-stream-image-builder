@@ -25,5 +25,8 @@ jobs:
       - name: Start vagrant box
         run: vagrant up
 
-      - name: Verify composer is running
-        run: vagrant ssh -c "sudo composer-cli status show"
+      - name: Build image
+        run: vagrant ssh -c "/vagrant/build-image.sh"
+
+      - name: Check built image
+        run: ls -alhR output
